@@ -15,13 +15,13 @@ import NotFound from "./pages/NotFound";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-// Create a client
-const queryClient = new QueryClient();
-
 const App = () => {
+  // Create a client
+  const queryClient = new QueryClient();
+
   return (
-    <React.StrictMode>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <React.StrictMode>
         <TooltipProvider>
           <Toaster />
           <Sonner />
@@ -67,8 +67,8 @@ const App = () => {
             </BrowserRouter>
           </AuthProvider>
         </TooltipProvider>
-      </QueryClientProvider>
-    </React.StrictMode>
+      </React.StrictMode>
+    </QueryClientProvider>
   );
 };
 
