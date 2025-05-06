@@ -116,18 +116,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                       </button>
                     </>
                   ) : (
-                    // Student navigation
+                    // Student navigation - Dashboard removed
                     <>
-                      <button 
-                        onClick={() => navigate('/')}
-                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                          isActive('/') 
-                            ? 'bg-faceflow-100 text-faceflow-800' 
-                            : 'text-gray-600 hover:bg-gray-100'
-                        }`}
-                      >
-                        Dashboard
-                      </button>
                       <button 
                         onClick={() => navigate('/register')}
                         className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
@@ -217,21 +207,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     </button>
                   </>
                 ) : (
-                  // Student mobile navigation
+                  // Student mobile navigation - Dashboard removed
                   <>
-                    <button 
-                      onClick={() => {
-                        navigate('/');
-                        setMobileMenuOpen(false);
-                      }}
-                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                        isActive('/') 
-                          ? 'bg-faceflow-100 text-faceflow-800' 
-                          : 'text-gray-600 hover:bg-gray-100'
-                      }`}
-                    >
-                      Dashboard
-                    </button>
                     <button 
                       onClick={() => {
                         navigate('/register');
