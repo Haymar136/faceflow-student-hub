@@ -1,6 +1,7 @@
 
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import Webcam from 'react-webcam';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface WebcamCaptureProps {
   onCapture?: (imageSrc: string | null) => void;
@@ -16,6 +17,7 @@ const WebcamCapture: React.FC<WebcamCaptureProps> = ({
   const webcamRef = useRef<Webcam | null>(null);
   const [isCameraReady, setIsCameraReady] = useState(false);
   const [faceDetected, setFaceDetected] = useState(false);
+  const isMobile = useIsMobile();
   
   // In a real application, this would be connected to a face detection library
   useEffect(() => {
@@ -49,7 +51,7 @@ const WebcamCapture: React.FC<WebcamCaptureProps> = ({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full">
       <div className="webcam-container">
         <Webcam
           audio={false}
@@ -70,11 +72,11 @@ const WebcamCapture: React.FC<WebcamCaptureProps> = ({
       </div>
       
       {showControls && (
-        <div className="flex justify-center">
+        <div className="flex justify-center w-full">
           <button
             onClick={captureImage}
             disabled={!isCameraReady}
-            className="px-4 py-2 bg-faceflow-600 text-white font-medium rounded-lg hover:bg-faceflow-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto px-4 py-2 bg-faceflow-600 text-white font-medium rounded-lg hover:bg-faceflow-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Capture Photo
           </button>

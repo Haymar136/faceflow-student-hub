@@ -1,6 +1,8 @@
 
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Menu } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface LayoutProps {
   children: ReactNode;
@@ -9,16 +11,22 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const isMobile = useIsMobile();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   const isActive = (path: string) => {
     return location.pathname === path;
+  };
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
   };
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-blue-50 to-white">
       <header className="border-b bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-faceflow-400 to-faceflow-600 flex items-center justify-center">
                 <svg 
@@ -47,43 +55,99 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </div>
             </div>
             
-            <nav className="flex items-center gap-1">
+            {isMobile ? (
               <button 
-                onClick={() => navigate('/')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  isActive('/') 
-                    ? 'bg-faceflow-100 text-faceflow-800' 
-                    : 'text-gray-600 hover:bg-gray-100'
-                }`}
+                onClick={toggleMobileMenu}
+                className="p-2 rounded-lg text-gray-600 hover:bg-gray-100"
               >
-                Dashboard
+                <Menu className="h-6 w-6" />
               </button>
-              <button 
-                onClick={() => navigate('/register')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  isActive('/register') 
-                    ? 'bg-faceflow-100 text-faceflow-800' 
-                    : 'text-gray-600 hover:bg-gray-100'
-                }`}
-              >
-                Register Student
-              </button>
-              <button 
-                onClick={() => navigate('/attendance')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  isActive('/attendance') 
-                    ? 'bg-faceflow-100 text-faceflow-800' 
-                    : 'text-gray-600 hover:bg-gray-100'
-                }`}
-              >
-                Mark Attendance
-              </button>
-            </nav>
+            ) : (
+              <nav className="flex items-center gap-1">
+                <button 
+                  onClick={() => navigate('/')}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    isActive('/') 
+                      ? 'bg-faceflow-100 text-faceflow-800' 
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  Dashboard
+                </button>
+                <button 
+                  onClick={() => navigate('/register')}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    isActive('/register') 
+                      ? 'bg-faceflow-100 text-faceflow-800' 
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  Register Student
+                </button>
+                <button 
+                  onClick={() => navigate('/attendance')}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    isActive('/attendance') 
+                      ? 'bg-faceflow-100 text-faceflow-800' 
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  Mark Attendance
+                </button>
+              </nav>
+            )}
           </div>
+          
+          {/* Mobile menu */}
+          {isMobile && mobileMenuOpen && (
+            <div className="mt-4 border-t pt-4 animate-fade-in">
+              <nav className="flex flex-col space-y-2">
+                <button 
+                  onClick={() => {
+                    navigate('/');
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                    isActive('/') 
+                      ? 'bg-faceflow-100 text-faceflow-800' 
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  Dashboard
+                </button>
+                <button 
+                  onClick={() => {
+                    navigate('/register');
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                    isActive('/register') 
+                      ? 'bg-faceflow-100 text-faceflow-800' 
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  Register Student
+                </button>
+                <button 
+                  onClick={() => {
+                    navigate('/attendance');
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                    isActive('/attendance') 
+                      ? 'bg-faceflow-100 text-faceflow-800' 
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  Mark Attendance
+                </button>
+              </nav>
+            </div>
+          )}
         </div>
       </header>
       
-      <main className="flex-1 container mx-auto px-4 py-8">
+      <main className="flex-1 container mx-auto px-4 py-6 md:py-8">
         {children}
       </main>
       

@@ -89,4 +89,27 @@
   .face-detection-indicator {
     @apply absolute bottom-4 right-4 px-3 py-1 bg-faceflow-600 text-white text-sm font-medium rounded-full flex items-center gap-2;
   }
+
+  /* Mobile-specific styles */
+  @media (max-width: 640px) {
+    .webcam-container {
+      @apply max-w-full;
+    }
+    
+    .face-detection-indicator {
+      @apply bottom-2 right-2 px-2 py-1 text-xs;
+    }
+  }
+}
+
+/* Additional animation for mobile menu */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

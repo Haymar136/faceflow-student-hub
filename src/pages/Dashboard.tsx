@@ -20,32 +20,32 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-6 md:space-y-8 animate-fade-in">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Dashboard</h1>
         <p className="text-gray-600 mt-1">Welcome to FaceFlow Student Hub</p>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
         {stats.map((stat, index) => (
           <Card key={index} className="hover:shadow-md transition-shadow">
             <CardHeader className="pb-2">
               <CardTitle className="text-lg text-gray-600">{stat.title}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-4xl font-bold text-faceflow-700">{stat.value}</p>
+              <p className="text-3xl md:text-4xl font-bold text-faceflow-700">{stat.value}</p>
             </CardContent>
           </Card>
         ))}
       </div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
         <Card>
           <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
+            <CardTitle className="text-xl">Quick Actions</CardTitle>
             <CardDescription>Common tasks you can perform</CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col gap-4">
+          <CardContent className="flex flex-col gap-3 md:gap-4">
             <button
               onClick={() => navigate('/register')}
               className="w-full py-3 px-4 text-left rounded-lg bg-gradient-to-r from-faceflow-500 to-faceflow-600 text-white font-medium hover:from-faceflow-600 hover:to-faceflow-700 transition-colors"
@@ -66,13 +66,13 @@ const Dashboard = () => {
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="flex flex-col">
           <CardHeader>
-            <CardTitle>Recent Attendance</CardTitle>
+            <CardTitle className="text-xl">Recent Attendance</CardTitle>
             <CardDescription>Students who recently checked in</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
+          <CardContent className="flex-1">
+            <div className="space-y-3 md:space-y-4">
               {recentAttendance.map((student) => (
                 <div key={student.id} className="flex items-center justify-between border-b pb-3">
                   <div>
@@ -84,7 +84,7 @@ const Dashboard = () => {
               ))}
             </div>
           </CardContent>
-          <CardFooter className="text-sm text-blue-600 hover:underline cursor-pointer">
+          <CardFooter className="text-sm text-blue-600 hover:underline cursor-pointer mt-auto">
             View all attendance records
           </CardFooter>
         </Card>

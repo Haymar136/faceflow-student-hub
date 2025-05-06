@@ -67,15 +67,15 @@ const RegisterStudent = () => {
   
   return (
     <div className="max-w-3xl mx-auto animate-fade-in">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Register New Student</h1>
+      <div className="mb-6 md:mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Register New Student</h1>
         <p className="text-gray-600 mt-1">Add a new student to the face recognition database</p>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <Card>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+        <Card className="order-2 md:order-1">
           <CardHeader>
-            <CardTitle>Student Information</CardTitle>
+            <CardTitle className="text-xl">Student Information</CardTitle>
             <CardDescription>Enter the student details</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -117,15 +117,15 @@ const RegisterStudent = () => {
           </CardContent>
         </Card>
         
-        <div className="space-y-8">
+        <div className="space-y-6 md:space-y-8 order-1 md:order-2">
           <Card>
             <CardHeader>
-              <CardTitle>Facial Recognition</CardTitle>
+              <CardTitle className="text-xl">Facial Recognition</CardTitle>
               <CardDescription>Capture student's photo for registration</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col items-center space-y-4">
               {capturedImage ? (
-                <div className="space-y-4">
+                <div className="space-y-4 w-full">
                   <div className="webcam-container">
                     <img 
                       src={capturedImage} 
@@ -136,6 +136,7 @@ const RegisterStudent = () => {
                   <Button 
                     variant="outline"
                     onClick={() => setCapturedImage(null)}
+                    className="w-full sm:w-auto"
                   >
                     Retake Photo
                   </Button>
@@ -147,7 +148,7 @@ const RegisterStudent = () => {
           </Card>
           
           <Button 
-            className="w-full py-6 text-lg bg-faceflow-600 hover:bg-faceflow-700"
+            className="w-full py-5 md:py-6 text-lg bg-faceflow-600 hover:bg-faceflow-700"
             onClick={handleRegister}
             disabled={isSubmitting}
           >

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import WebcamCapture from '@/components/WebcamCapture';
 import { toast } from "sonner";
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface RecognizedStudent {
   id: string;
@@ -15,6 +16,7 @@ interface RecognizedStudent {
 const MarkAttendance = () => {
   const [recognizing, setRecognizing] = useState(false);
   const [recognizedStudents, setRecognizedStudents] = useState<RecognizedStudent[]>([]);
+  const isMobile = useIsMobile();
   
   // Simulate face recognition process for demo purposes
   useEffect(() => {
@@ -80,15 +82,15 @@ const MarkAttendance = () => {
   
   return (
     <div className="max-w-5xl mx-auto animate-fade-in">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Mark Attendance</h1>
+      <div className="mb-6 md:mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Mark Attendance</h1>
         <p className="text-gray-600 mt-1">Students will be automatically recognized as they appear on camera</p>
       </div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
         <Card>
           <CardHeader>
-            <CardTitle>Camera Feed</CardTitle>
+            <CardTitle className="text-xl">Camera Feed</CardTitle>
             <CardDescription>Position students in front of the camera for recognition</CardDescription>
           </CardHeader>
           <CardContent>
@@ -110,10 +112,10 @@ const MarkAttendance = () => {
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className={`${isMobile ? 'mt-4' : ''}`}>
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
-              <CardTitle>Today's Attendance</CardTitle>
+              <CardTitle className="text-xl">Today's Attendance</CardTitle>
               <CardDescription>Students who have been marked present</CardDescription>
             </div>
             <div className="text-2xl font-bold text-faceflow-600">
@@ -121,22 +123,22 @@ const MarkAttendance = () => {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="max-h-[400px] overflow-auto pr-2 space-y-2">
+            <div className={`${isMobile ? 'max-h-[300px]' : 'max-h-[400px]'} overflow-auto pr-2 space-y-2`}>
               {recognizedStudents.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">
+                <div className="text-center py-6 md:py-8 text-gray-500">
                   No students recognized yet
                 </div>
               ) : (
                 recognizedStudents.map((student, index) => (
                   <div 
                     key={student.id + index}
-                    className="flex items-center justify-between p-3 bg-white border rounded-lg shadow-sm"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 bg-white border rounded-lg shadow-sm"
                   >
                     <div>
                       <p className="font-medium">{student.name}</p>
                       <p className="text-sm text-gray-500">{student.studentId} • {student.class}</p>
                     </div>
-                    <span className="text-sm font-medium text-gray-500">{student.timestamp}</span>
+                    <span className="text-sm font-medium text-gray-500 mt-1 sm:mt-0">{student.timestamp}</span>
                   </div>
                 ))
               )}
