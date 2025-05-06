@@ -1,8 +1,10 @@
 
 import React, { ReactNode, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Menu } from 'lucide-react';
+import { Menu, LogOut } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useAuth } from '@/contexts/AuthContext';
+import { toast } from "sonner";
 
 interface LayoutProps {
   children: ReactNode;
@@ -13,6 +15,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const isMobile = useIsMobile();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, logout, isAdmin } = useAuth();
   
   const isActive = (path: string) => {
     return location.pathname === path;
@@ -20,6 +23,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  const handleLogout = () => {
+    logout();
+    toast.success("Logged out successfully");
+    navigate('/login');
   };
 
   return (
@@ -55,91 +64,212 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </div>
             </div>
             
-            {isMobile ? (
-              <button 
-                onClick={toggleMobileMenu}
-                className="p-2 rounded-lg text-gray-600 hover:bg-gray-100"
-              >
-                <Menu className="h-6 w-6" />
-              </button>
-            ) : (
-              <nav className="flex items-center gap-1">
+            <div className="flex items-center gap-4">
+              {user && (
+                <div className="hidden md:block text-right">
+                  <p className="text-sm font-medium text-gray-900">{user.name}</p>
+                  <p className="text-xs text-faceflow-600 capitalize">{user.role}</p>
+                </div>
+              )}
+              
+              {isMobile ? (
                 <button 
-                  onClick={() => navigate('/')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    isActive('/') 
-                      ? 'bg-faceflow-100 text-faceflow-800' 
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
+                  onClick={toggleMobileMenu}
+                  className="p-2 rounded-lg text-gray-600 hover:bg-gray-100"
                 >
-                  Dashboard
+                  <Menu className="h-6 w-6" />
                 </button>
-                <button 
-                  onClick={() => navigate('/register')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    isActive('/register') 
-                      ? 'bg-faceflow-100 text-faceflow-800' 
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
-                >
-                  Register Student
-                </button>
-                <button 
-                  onClick={() => navigate('/attendance')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    isActive('/attendance') 
-                      ? 'bg-faceflow-100 text-faceflow-800' 
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
-                >
-                  Mark Attendance
-                </button>
-              </nav>
-            )}
+              ) : (
+                <nav className="flex items-center gap-1">
+                  {isAdmin ? (
+                    // Admin navigation
+                    <>
+                      <button 
+                        onClick={() => navigate('/admin')}
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                          isActive('/admin') 
+                            ? 'bg-faceflow-100 text-faceflow-800' 
+                            : 'text-gray-600 hover:bg-gray-100'
+                        }`}
+                      >
+                        Dashboard
+                      </button>
+                      <button 
+                        onClick={() => navigate('/register')}
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                          isActive('/register') 
+                            ? 'bg-faceflow-100 text-faceflow-800' 
+                            : 'text-gray-600 hover:bg-gray-100'
+                        }`}
+                      >
+                        Register Student
+                      </button>
+                      <button 
+                        onClick={() => navigate('/attendance')}
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                          isActive('/attendance') 
+                            ? 'bg-faceflow-100 text-faceflow-800' 
+                            : 'text-gray-600 hover:bg-gray-100'
+                        }`}
+                      >
+                        Mark Attendance
+                      </button>
+                    </>
+                  ) : (
+                    // Student navigation
+                    <>
+                      <button 
+                        onClick={() => navigate('/')}
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                          isActive('/') 
+                            ? 'bg-faceflow-100 text-faceflow-800' 
+                            : 'text-gray-600 hover:bg-gray-100'
+                        }`}
+                      >
+                        Dashboard
+                      </button>
+                      <button 
+                        onClick={() => navigate('/register')}
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                          isActive('/register') 
+                            ? 'bg-faceflow-100 text-faceflow-800' 
+                            : 'text-gray-600 hover:bg-gray-100'
+                        }`}
+                      >
+                        Register Student
+                      </button>
+                      <button 
+                        onClick={() => navigate('/attendance')}
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                          isActive('/attendance') 
+                            ? 'bg-faceflow-100 text-faceflow-800' 
+                            : 'text-gray-600 hover:bg-gray-100'
+                        }`}
+                      >
+                        Mark Attendance
+                      </button>
+                    </>
+                  )}
+                  
+                  <button 
+                    onClick={handleLogout}
+                    className="ml-2 px-4 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors flex items-center gap-1"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    <span>Logout</span>
+                  </button>
+                </nav>
+              )}
+            </div>
           </div>
           
           {/* Mobile menu */}
           {isMobile && mobileMenuOpen && (
             <div className="mt-4 border-t pt-4 animate-fade-in">
+              {user && (
+                <div className="mb-3 px-2">
+                  <p className="text-sm font-medium text-gray-900">{user.name}</p>
+                  <p className="text-xs text-faceflow-600 capitalize">{user.role}</p>
+                </div>
+              )}
               <nav className="flex flex-col space-y-2">
+                {isAdmin ? (
+                  // Admin mobile navigation
+                  <>
+                    <button 
+                      onClick={() => {
+                        navigate('/admin');
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                        isActive('/admin') 
+                          ? 'bg-faceflow-100 text-faceflow-800' 
+                          : 'text-gray-600 hover:bg-gray-100'
+                      }`}
+                    >
+                      Dashboard
+                    </button>
+                    <button 
+                      onClick={() => {
+                        navigate('/register');
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                        isActive('/register') 
+                          ? 'bg-faceflow-100 text-faceflow-800' 
+                          : 'text-gray-600 hover:bg-gray-100'
+                      }`}
+                    >
+                      Register Student
+                    </button>
+                    <button 
+                      onClick={() => {
+                        navigate('/attendance');
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                        isActive('/attendance') 
+                          ? 'bg-faceflow-100 text-faceflow-800' 
+                          : 'text-gray-600 hover:bg-gray-100'
+                      }`}
+                    >
+                      Mark Attendance
+                    </button>
+                  </>
+                ) : (
+                  // Student mobile navigation
+                  <>
+                    <button 
+                      onClick={() => {
+                        navigate('/');
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                        isActive('/') 
+                          ? 'bg-faceflow-100 text-faceflow-800' 
+                          : 'text-gray-600 hover:bg-gray-100'
+                      }`}
+                    >
+                      Dashboard
+                    </button>
+                    <button 
+                      onClick={() => {
+                        navigate('/register');
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                        isActive('/register') 
+                          ? 'bg-faceflow-100 text-faceflow-800' 
+                          : 'text-gray-600 hover:bg-gray-100'
+                      }`}
+                    >
+                      Register Student
+                    </button>
+                    <button 
+                      onClick={() => {
+                        navigate('/attendance');
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                        isActive('/attendance') 
+                          ? 'bg-faceflow-100 text-faceflow-800' 
+                          : 'text-gray-600 hover:bg-gray-100'
+                      }`}
+                    >
+                      Mark Attendance
+                    </button>
+                  </>
+                )}
+                
                 <button 
                   onClick={() => {
-                    navigate('/');
+                    handleLogout();
                     setMobileMenuOpen(false);
                   }}
-                  className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                    isActive('/') 
-                      ? 'bg-faceflow-100 text-faceflow-800' 
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
+                  className="px-4 py-3 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors flex items-center gap-2"
                 >
-                  Dashboard
-                </button>
-                <button 
-                  onClick={() => {
-                    navigate('/register');
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                    isActive('/register') 
-                      ? 'bg-faceflow-100 text-faceflow-800' 
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
-                >
-                  Register Student
-                </button>
-                <button 
-                  onClick={() => {
-                    navigate('/attendance');
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                    isActive('/attendance') 
-                      ? 'bg-faceflow-100 text-faceflow-800' 
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
-                >
-                  Mark Attendance
+                  <LogOut className="h-4 w-4" />
+                  <span>Logout</span>
                 </button>
               </nav>
             </div>

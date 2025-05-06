@@ -1,11 +1,20 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { isAdmin, user } = useAuth();
   
+  useEffect(() => {
+    // If admin, redirect to admin dashboard
+    if (isAdmin) {
+      navigate('/admin');
+    }
+  }, [isAdmin, navigate]);
+
   // Mock data - in a real app this would come from API
   const recentAttendance = [
     { id: '1', name: 'Emma Johnson', studentId: 'S12345', class: 'CS101', time: '09:15 AM' },
@@ -23,7 +32,7 @@ const Dashboard = () => {
     <div className="space-y-6 md:space-y-8 animate-fade-in">
       <div>
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-600 mt-1">Welcome to FaceFlow Student Hub</p>
+        <p className="text-gray-600 mt-1">Welcome to FaceFlow Student Hub, {user?.name}</p>
       </div>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
@@ -57,11 +66,6 @@ const Dashboard = () => {
               className="w-full py-3 px-4 text-left rounded-lg bg-gradient-to-r from-faceflow-400 to-faceflow-500 text-white font-medium hover:from-faceflow-500 hover:to-faceflow-600 transition-colors"
             >
               Mark Attendance
-            </button>
-            <button
-              className="w-full py-3 px-4 text-left rounded-lg border border-gray-200 font-medium hover:bg-gray-50 transition-colors"
-            >
-              View Reports
             </button>
           </CardContent>
         </Card>
