@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FileSpreadsheet, FilePdf, Calendar, Download, CalendarDays } from 'lucide-react';
+import { FileSpreadsheet, FileText, Calendar, Download, CalendarDays } from 'lucide-react';
 import { toast } from "sonner";
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -117,7 +116,7 @@ const ExportOptions: React.FC<ExportOptionsProps> = ({ selectedClass, selectedDa
           disabled={isExporting}
           className="h-12 bg-red-600 hover:bg-red-700 text-white"
         >
-          <FilePdf className="h-5 w-5 mr-2" />
+          <FileText className="h-5 w-5 mr-2" />
           <span>Export PDF</span>
           {isExporting && <span className="ml-2 h-4 w-4 rounded-full border-2 border-white border-r-transparent animate-spin"></span>}
         </Button>
