@@ -1,7 +1,7 @@
 
 import React, { ReactNode, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Menu, LogOut } from 'lucide-react';
+import { Menu, LogOut, Home } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from "sonner";
@@ -85,6 +85,19 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     // Admin navigation
                     <>
                       <button 
+                        onClick={() => navigate('/')}
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                          isActive('/') 
+                            ? 'bg-faceflow-100 text-faceflow-800' 
+                            : 'text-gray-600 hover:bg-gray-100'
+                        }`}
+                      >
+                        <span className="flex items-center gap-1">
+                          <Home className="h-4 w-4" />
+                          Home
+                        </span>
+                      </button>
+                      <button 
                         onClick={() => navigate('/admin')}
                         className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                           isActive('/admin') 
@@ -116,8 +129,21 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                       </button>
                     </>
                   ) : (
-                    // Student navigation - Dashboard removed
+                    // Student navigation
                     <>
+                      <button 
+                        onClick={() => navigate('/')}
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                          isActive('/') 
+                            ? 'bg-faceflow-100 text-faceflow-800' 
+                            : 'text-gray-600 hover:bg-gray-100'
+                        }`}
+                      >
+                        <span className="flex items-center gap-1">
+                          <Home className="h-4 w-4" />
+                          Home
+                        </span>
+                      </button>
                       <button 
                         onClick={() => navigate('/register')}
                         className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
@@ -168,6 +194,20 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   <>
                     <button 
                       onClick={() => {
+                        navigate('/');
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                        isActive('/') 
+                          ? 'bg-faceflow-100 text-faceflow-800' 
+                          : 'text-gray-600 hover:bg-gray-100'
+                      }`}
+                    >
+                      <Home className="h-4 w-4" />
+                      Home
+                    </button>
+                    <button 
+                      onClick={() => {
                         navigate('/admin');
                         setMobileMenuOpen(false);
                       }}
@@ -207,8 +247,22 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     </button>
                   </>
                 ) : (
-                  // Student mobile navigation - Dashboard removed
+                  // Student mobile navigation 
                   <>
+                    <button 
+                      onClick={() => {
+                        navigate('/');
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                        isActive('/') 
+                          ? 'bg-faceflow-100 text-faceflow-800' 
+                          : 'text-gray-600 hover:bg-gray-100'
+                      }`}
+                    >
+                      <Home className="h-4 w-4" />
+                      Home
+                    </button>
                     <button 
                       onClick={() => {
                         navigate('/register');

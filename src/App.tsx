@@ -29,11 +29,12 @@ const App = () => {
             <Routes>
               <Route path="/login" element={<Login />} />
               
-              {/* Root path redirects based on user role */}
+              {/* Root path redirects based on user role - No camera activation here */}
               <Route path="/" element={
                 <ProtectedRoute>
-                  {/* Student lands on landing page */}
-                  <LandingPage />
+                  <Layout>
+                    <LandingPage />
+                  </Layout>
                 </ProtectedRoute>
               } />
               
